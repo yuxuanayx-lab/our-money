@@ -131,9 +131,11 @@ main{padding:0 16px;}
 .item .amt{font-weight:800;font-size:14px;white-space:nowrap;}
 
 nav{
-  position:sticky;
+  position:fixed;
+  left:50%;
   bottom:0;
-  width:100%;
+  transform:translateX(-50%);
+  width:min(100vw,520px);
   height:76px;
   background:rgba(255,255,255,.96);
   backdrop-filter:blur(12px);
