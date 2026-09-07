@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#DCEFF4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Our Money">
+<title>Our Money</title>
+
+<style>
+:root{
+  --blue:#DFF3F8;
+  --blue2:#CFEAF3;
+  --blue3:#A9D7E6;
+  --yellow:#FFF8DC;
+  --yellow2:#FCEBC0;
+  --cream:#fbfaf6;
+  --ink:#34434a;
+  --muted:#829096;
+  --white:#fff;
+  --danger:#d98282;
+  --green:#75aa8b;
+}
+
+*{box-sizing:border-box;}
+
+html,body{
+  width:100%;
+  min-width:0;
+  margin:0;
+  padding:0;
+  overflow-x:hidden;
+}
+
+body{
+  background:#eef5f6;
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+button,input,select,textarea{font:inherit;}
+
+.app{
+  width:100%;
+  max-width:520px;
+  height:100vh;
+  height:100dvh;
+  margin:0 auto;
+  background:var(--cream);
+  padding-bottom:92px;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  position:relative;
+}
+
+/* ===== base / desktop ===== */
+
+header{
+  padding:22px 20px 12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{font-weight:800;font-size:22px;letter-spacing:-.5px;}
+.month{font-size:13px;color:var(--muted);}
+
+main{padding:0 16px;}
+
+.card{
+  background:var(--white);
+  border-radius:22px;
+  padding:18px;
+  margin:10px 0;
+  box-shadow:0 5px 20px rgba(79,116,125,.055);
+}
+
+.hero{background:var(--blue);padding:20px;border-radius:24px;}
+
+.label{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:#66828a;
+  font-weight:700;
+}
+
+.big{font-size:34px;font-weight:800;margin:6px 0 14px;letter-spacing:-1px;}
+
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+
+.pill{background:rgba(255,255,255,.72);border-radius:999px;padding:7px 11px;font-size:12px;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+
+.progress{height:9px;background:#edf0ee;border-radius:20px;overflow:hidden;margin:10px 0;}
+.fill{height:100%;border-radius:20px;background:var(--blue3);}
+.fill.yellow{background:var(--yellow2);}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+.smallcard{padding:15px;border-radius:20px;background:#fff;}
+.smallcard.yellow{background:var(--yellow);}
+.smallcard.blue{background:var(--blue);}
+
+.amount{font-size:21px;font-weight:800;margin-top:5px;}
+.muted{color:var(--muted);font-size:12px;}
+.section-title{font-weight:800;margin:22px 4px 8px;}
+
+.item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 0;
+  border-bottom:1px solid #edf0ee;
+}
+.item:last-child{border-bottom:0;}
+
+.icon{
+  width:38px;height:38px;
+  border-radius:14px;
+  background:var(--blue);
+  display:grid;place-items:center;
+  font-size:18px;
+  flex-shrink:0;
+}
+
+.item .info{flex:1;min-width:0;}
+.item .name{font-weight:700;font-size:14px;}
+.item .sub{font-size:11px;color:var(--muted);margin-top:3px;}
+.item .amt{font-weight:800;font-size:14px;white-space:nowrap;}
+
+nav{
+  position:sticky;
+  bottom:0;
+  width:100%;
+  height:76px;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(12px);
+  border-top:1px solid #edf0ee;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  z-index:10;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+nav button{border:0;background:none;color:#9aa6aa;font-size:10px;padding:8px 0;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.navicon{font-size:20px;display:block;margin-bottom:2px;}
+.active{color:#4f7f89;font-weight:800;}
+
+.fab-anchor{
+  position:sticky;
+  bottom:0;
+  height:0;
+  overflow:visible;
+  z-index:20;
+  pointer-events:none;
+}
+
+.fab{
+  position:absolute;
+  right:18px;
+  bottom:90px;
+  width:54px;height:54px;
+  border:0;border-radius:18px;
+  background:var(--yellow2);
+  color:var(--ink);
+  font-size:27px;
+  box-shadow:0 8px 20px rgba(170,145,55,.2);
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  pointer-events:auto;
+}
+
+.page{display:none;}
+.page.active-page{display:block;}
+
+input,select,textarea{
+  width:100%;
+  border:1px solid #e2e9e9;
+  border-radius:14px;
+  padding:12px;
+  background:#fff;
+  outline:none;
+  color:var(--ink);
+  -webkit-appearance:none;
+}
+textarea{min-height:100px;resize:vertical;}
+
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+.home-personal-goals{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.home-personal-goals .person-heading{margin-bottom:7px;}
+.home-personal-goals .card{margin:0;height:100%;box-sizing:border-box;}
+
+.person-heading{font-size:15px;font-weight:950;letter-spacing:.14em;margin:0 0 8px 3px;}
+.hazel-heading{color:#5d9fb2;}
+.jenson-heading{color:#c39a32;}
+.personal-goal-grid .card{height:100%;box-sizing:border-box;}
+
+.btn{
+  border:0;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .08s ease,opacity .08s ease;
+  border-radius:14px;
+  padding:12px 16px;
+  background:var(--blue2);
+  font-weight:800;
+  color:var(--ink);
+}
+.btn.blue{background:var(--blue2);}
+.btn.yellow{background:var(--yellow2);}
+.btn.full{width:100%;}
+.btn:active,.close:active,nav button:active,.fab:active{transform:scale(.97);}
+
+.modal{
+  position:fixed;inset:0;
+  background:rgba(35,55,60,.25);
+  display:none;
+  align-items:flex-end;
+  z-index:30;
+}
+.modal.open{display:flex;}
+
+.sheet{
+  background:var(--cream);
+  width:min(520px,100%);
+  margin:auto;
+  border-radius:28px 28px 0 0;
+  padding:20px;
+  max-height:88vh;
+  overflow:auto;
+}
+
+.close{
+  border:0;
+  background:#edf2f2;
+  border-radius:50%;
+  width:34px;height:34px;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  flex-shrink:0;
+}
+
+hr{border:0;border-top:1px solid #edf0ee;margin:16px 0;}
+.note{background:var(--yellow);border-radius:18px;padding:15px;margin:9px 0;}
+.empty{text-align:center;color:var(--muted);padding:24px 5px;font-size:13px;}
+
+.loadwrap{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:10px;
+  color:var(--muted);
+  font-size:13px;
+}
+.spin{
+  width:26px;height:26px;
+  border-radius:50%;
+  border:3px solid #dfeaea;
+  border-top-color:#88b3bd;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ===== mobile overrides (kept last so they win the cascade) ===== */
+
+@media screen and (max-width:600px){
+  html,body{width:100vw;min-width:100vw;max-width:100vw;}
+  body{background:var(--cream);}
+  .app{width:100vw;max-width:none;min-width:0;margin:0;padding-bottom:92px;}
+  header{width:100%;padding:calc(16px + env(safe-area-inset-top)) 18px 12px;}
+  main{width:100%;padding:0 14px;}
+  .logo{font-size:21px;}
+  .month{font-size:12px;margin-top:2px;}
+  .card{border-radius:20px;padding:16px;margin:9px 0;}
+  .hero{padding:19px;border-radius:22px;}
+  .label{font-size:11px;}
+  .big{font-size:30px;margin:5px 0 13px;}
+  .section-title{font-size:17px;margin:20px 3px 9px;}
+  .grid{gap:9px;}
+  .smallcard{padding:14px;border-radius:18px;}
+  .amount{font-size:19px;}
+  .item{gap:10px;padding:11px 0;}
+  .icon{width:36px;height:36px;min-width:36px;border-radius:12px;font-size:17px;}
+  .item .name{font-size:14px;}
+  .item .sub{font-size:10px;}
+  .item .amt{font-size:13px;white-space:nowrap;}
+  .home-personal-goals{grid-template-columns:1fr 1fr;gap:8px;}
+  .personal-goal-grid{grid-template-columns:1fr 1fr;gap:8px;}
+  .person-heading{font-size:14px;letter-spacing:.10em;margin:0 0 8px 2px;}
+  .form-row{grid-template-columns:1fr 1fr;gap:8px;}
+  input,select,textarea{font-size:16px;padding:12px;}
+  .btn{min-height:44px;padding:11px 14px;border-radius:14px;}
+  nav{
+    height:calc(70px + env(safe-area-inset-bottom));
+    padding:5px 4px env(safe-area-inset-bottom);
+  }
+  nav button{min-height:58px;font-size:11px;padding:6px 2px;}
+  .navicon{font-size:21px;margin-bottom:3px;}
+  .fab{
+    right:16px;
+    bottom:calc(82px + env(safe-area-inset-bottom));
+    width:54px;height:54px;border-radius:18px;font-size:26px;z-index:20;
+  }
+  .modal{align-items:flex-end;}
+  .sheet{
+    width:100vw;max-width:none;max-height:90vh;
+    border-radius:25px 25px 0 0;
+    padding:18px 16px calc(22px + env(safe-area-inset-bottom));
+  }
+  .sheet h2{font-size:22px;margin-top:3px;}
+  .close{width:38px;height:38px;min-width:38px;font-size:16px;}
+  #transactionMonth{width:auto;min-width:0;flex-shrink:0;max-width:44vw;}
+  #transactionHistoryCard .row{flex-wrap:wrap;row-gap:8px;}
+  .info{min-width:0;}
+  .info .name,.info .sub{overflow-wrap:anywhere;}
+}
+
+@media screen and (max-width:380px){
+  main{padding:0 11px;}
+  header{padding-left:14px;padding-right:14px;}
+  .big{font-size:28px;}
+  .person-heading{font-size:12px;}
+  .smallcard{padding:12px;}
+  .amount{font-size:17px;}
+  .item .amt{font-size:12px;}
+}
+</style>
+</head>
+
+<body>
+
+<div id="loading" class="loadwrap">
+  <div class="spin"></div>
+  <div>Loading Our Money…</div>
+</div>
+
+<div class="app" id="appRoot" style="display:none">
+
+<header>
+  <div>
+    <div class="logo">💙 Our Money</div>
+    <div class="month" id="monthLabel"></div>
+  </div>
+  <button class="pill" data-action="openModal" data-args='["settingsModal"]'>⚙️</button>
+</header>
+
+<main>
+
+<section id="home" class="page active-page">
+  <div class="hero">
+    <div class="label">Joint Account</div>
+    <div class="big" id="jointBalance">RM 0.00</div>
+    <div class="row">
+      <span class="muted">Shared money</span>
+      <span class="pill">❤️ Together</span>
+    </div>
+  </div>
+
+  <div class="section-title">🎯 Our Goal</div>
+  <div id="homeOurGoal"></div>
+
+  <div class="home-personal-goals">
+    <div>
+      <div class="person-heading hazel-heading">HAZEL'S GOAL</div>
+      <div id="homeHazelGoal"></div>
+    </div>
+    <div>
+      <div class="person-heading jenson-heading">JENSON'S GOAL</div>
+      <div id="homeJensonGoal"></div>
+    </div>
+  </div>
+
+  <div class="section-title">💰 Financial Overview</div>
+  <div class="grid">
+    <div class="smallcard blue">
+      <div class="row">
+        <div class="label">Hazel</div>
+        <button class="close" data-action="editPersonalMoney" data-args='["Hazel"]'>✎</button>
+      </div>
+      <div class="muted" style="margin-top:8px">Savings</div>
+      <div class="amount" id="hazelSavings">RM 0.00</div>
+      <div class="muted">Investments</div>
+      <div style="font-weight:800;margin-top:2px" id="hazelInvestments">RM 0.00</div>
+    </div>
+    <div class="smallcard yellow">
+      <div class="row">
+        <div class="label">Jenson</div>
+        <button class="close" data-action="editPersonalMoney" data-args='["Jenson"]'>✎</button>
+      </div>
+      <div class="muted" style="margin-top:8px">Savings</div>
+      <div class="amount" id="jensonSavings">RM 0.00</div>
+      <div class="muted">Investments</div>
+      <div style="font-weight:800;margin-top:2px" id="jensonInvestments">RM 0.00</div>
+    </div>
+  </div>
+
+  <div class="section-title">Recent expenses</div>
+  <div class="card" id="recentExpenses"></div>
+</section>
+
+<section id="expenses" class="page">
+  <div class="row">
+    <div>
+      <div class="label">Monthly spending</div>
+      <div class="big" id="expenseTotal">RM 0</div>
+    </div>
+    <span class="pill" id="expenseBudget">Budget RM 0</span>
+  </div>
+
+  <div class="grid" style="margin:8px 0 12px">
+    <button id="hazelTab" class="btn blue" data-action="setExpensePerson" data-args='["Hazel"]'>💙 Hazel</button>
+    <button id="jensonTab" class="btn yellow" data-action="setExpensePerson" data-args='["Jenson"]'>💛 Jenson</button>
+  </div>
+
+  <div class="card">
+    <div class="label" id="expensePersonLabel">Hazel's categories & budgets</div>
+    <div id="categoryList"></div>
+  </div>
+
+  <div class="section-title">🧾 Transaction Details</div>
+  <div class="card" id="transactionHistoryCard">
+    <div class="row" style="margin-bottom:12px">
+      <div>
+        <div class="label">History</div>
+        <div style="font-weight:800;font-size:17px">All transactions</div>
+      </div>
+      <select id="transactionMonth" style="width:auto;min-width:145px">
+        <option value="all">All months</option>
+      </select>
+    </div>
+    <div id="transactionHistory"></div>
+  </div>
+</section>
+
+<section id="goals" class="page">
+  <div class="section-title">🎯 Our Saving Goals</div>
+  <div id="ourGoals"></div>
+
+  <div class="section-title" style="margin-top:22px">💙 Personal Saving Goals</div>
+  <div class="grid personal-goal-grid">
+    <div>
+      <div class="person-heading hazel-heading">HAZEL</div>
+      <div id="hazelPersonalGoals"></div>
+    </div>
+    <div>
+      <div class="person-heading jenson-heading">JENSON</div>
+      <div id="jensonPersonalGoals"></div>
+    </div>
+  </div>
+
+  <button class="btn full" data-action="openGoalModal">＋ Add saving goal</button>
+</section>
+
+<section id="money" class="page">
+  <div class="section-title">Our Money</div>
+  <div class="card">
+    <div class="label">Current balance</div>
+    <div class="big" id="jointBalance2">RM 0</div>
+    <div class="form-row">
+      <button class="btn" data-action="adjustJoint" data-args="[1]">＋ Add money</button>
+      <button class="btn" data-action="adjustJoint" data-args="[-1]">− Withdraw</button>
+    </div>
+  </div>
+
+  <div class="section-title">Investments</div>
+  <div class="card" id="investmentList"></div>
+  <button class="btn full" data-action="addInvestment">＋ Add investment</button>
+</section>
+
+<section id="notes" class="page">
+  <div class="section-title">Notes</div>
+  <div id="notesList"></div>
+  <button class="btn yellow full" data-action="openModal" data-args='["noteModal"]'>＋ New note</button>
+</section>
+
+</main>
+
+<div class="fab-anchor">
+  <button class="fab" data-action="openModal" data-args='["expenseModal"]'>＋</button>
+</div>
+
+<nav>
+  <button class="active" data-page="home"><span class="navicon">🏠</span>Home</button>
+  <button data-page="expenses"><span class="navicon">🧾</span>Expenses</button>
+  <button data-page="goals"><span class="navicon">🎯</span>Goals</button>
+  <button data-page="money"><span class="navicon">🏦</span>Joint</button>
+  <button data-page="notes"><span class="navicon">📝</span>Notes</button>
+</nav>
+
+<div class="modal" id="syncModal">
+  <div class="sheet">
+    <div class="row">
+      <h2>💙 Connect Our Money</h2>
+      <button class="close" data-action="closeModal" data-args='["syncModal"]'>×</button>
+    </div>
+    <p class="muted">Create a shared account on the first phone, then use the code on the second phone.</p>
+    <button type="button" class="btn blue full" data-action="createCouple">✨ Create Our Money</button>
+    <div style="text-align:center;margin:12px 0" class="muted">or</div>
+    <input id="joinCode" placeholder="Enter 8-character couple code" autocomplete="off" autocapitalize="characters">
+    <br><br>
+    <button type="button" class="btn yellow full" data-action="joinCouple">🔗 Join Our Money</button>
+  </div>
+</div>
+
+<div class="modal" id="expenseModal">
+  <div class="sheet">
+    <div class="row">
+      <h2>Add expense</h2>
+      <button class="close" data-action="closeModal" data-args='["expenseModal"]'>×</button>
+    </div>
+    <div class="form-row">
+      <div>
+        <label class="muted">Amount</label>
+        <input id="eAmount" type="number" step=".01" placeholder="0.00">
+      </div>
+      <div>
+        <label class="muted">Person</label>
+        <select id="ePerson">
+          <option>Hazel</option>
+          <option>Jenson</option>
+        </select>
+      </div>
+    </div>
+    <br>
+    <label class="muted">Category</label>
+    <select id="eCategory"></select>
+    <br><br>
+    <label class="muted">Description</label>
+    <input id="eDesc" placeholder="Dinner, groceries...">
+    <br><br>
+    <button type="button" class="btn yellow full" data-action="addExpense">Save expense</button>
+  </div>
+</div>
+
+<div class="modal" id="goalModal">
+  <div class="sheet">
+    <div class="row">
+      <h2>Saving goal</h2>
+      <button class="close" data-action="closeModal" data-args='["goalModal"]'>×</button>
+    </div>
+    <label class="muted">Goal name</label>
+    <input id="gName" placeholder="Japan trip 🇯🇵">
+    <br><br>
+    <div class="form-row">
+      <div>
+        <label class="muted">Owner</label>
+        <select id="gOwner">
+          <option>Our Money</option>
+          <option>Hazel</option>
+          <option>Jenson</option>
+        </select>
+      </div>
+      <div>
+        <label class="muted">Target</label>
+        <input id="gTarget" type="number" placeholder="8000">
+      </div>
+    </div>
+    <br>
+    <label class="muted">Current saved</label>
+    <input id="gCurrent" type="number" placeholder="0">
+    <br><br>
+    <button type="button" class="btn yellow full" data-action="addGoal">Save goal</button>
+  </div>
+</div>
+
+<div class="modal" id="noteModal">
+  <div class="sheet">
+    <div class="row">
+      <h2>New note</h2>
+      <button class="close" data-action="closeModal" data-args='["noteModal"]'>×</button>
+    </div>
+    <input id="nTitle" placeholder="Title">
+    <br><br>
+    <textarea id="nBody" placeholder="Write something..."></textarea>
+    <br><br>
+    <button class="btn yellow full" data-action="addNote">Save note</button>
+  </div>
+</div>
+
+<div class="modal" id="settingsModal">
+  <div class="sheet">
+    <div class="row">
+      <h2>Settings</h2>
+      <button class="close" data-action="closeModal" data-args='["settingsModal"]'>×</button>
+    </div>
+
+    <div class="card" id="syncSettingsCard">
+      <b>🔄 Shared account</b>
+      <p class="muted">Your data syncs between both phones through Supabase.</p>
+      <div class="row">
+        <span class="muted">Connection</span><strong id="syncSettingsStatus">Connected</strong>
+      </div>
+      <br>
+      <button class="btn blue full" data-action="showCoupleCode">🔗 Show our couple code</button>
+    </div>
+
+    <div class="card">
+      <b>Categories & budgets</b>
+      <p class="muted">Choose whose categories you want to edit.</p>
+      <div class="grid" style="margin:8px 0 12px">
+        <button class="btn blue" data-action="setExpensePerson" data-args='["Hazel"]'>💙 Hazel</button>
+        <button class="btn yellow" data-action="setExpensePerson" data-args='["Jenson"]'>💛 Jenson</button>
+      </div>
+      <p class="muted">Editing: <strong id="settingsPersonLabel">Hazel</strong></p>
+      <div id="settingsCats"></div>
+      <hr>
+      <div class="form-row">
+        <input id="newCat" placeholder="Category name">
+        <input id="newBudget" type="number" min="0" step="1" placeholder="Budget">
+      </div>
+      <br>
+      <button class="btn blue full" data-action="addCategory">＋ Add category</button>
+    </div>
+
+    <div class="card">
+      <b>Demo data</b>
+      <p class="muted">Reset the app to demo data (clears data for everyone using this app).</p>
+      <button class="btn" data-action="resetData">Reset all data</button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+/* =========================
+   DATA + STORAGE
+   Data now lives in Claude's shared app storage
+   instead of a Google Sheet, so both of you see
+   the same live data when you open this app.
+========================= */
+
+const STORAGE_KEY='our-money-data';
+
+const DEFAULT_DATA={
+  joint:8250,
+  people:['Hazel','Jenson'],
+  personalSavings:{Hazel:0,Jenson:0},
+  categories:{
+    Hazel:[
+      {name:'Food',icon:'🍜',budget:800},
+      {name:'Transport',icon:'🚗',budget:300},
+      {name:'Shopping',icon:'🛍️',budget:300},
+      {name:'Entertainment',icon:'🎮',budget:200},
+      {name:'Bills',icon:'💳',budget:300}
+    ],
+    Jenson:[
+      {name:'Food',icon:'🍜',budget:800},
+      {name:'Transport',icon:'🚗',budget:300},
+      {name:'Shopping',icon:'🛍️',budget:300},
+      {name:'Entertainment',icon:'🎮',budget:200},
+      {name:'Bills',icon:'💳',budget:300}
+    ]
+  },
+  expenses:[
+    {amount:28.5,person:'Hazel',cat:'Food',desc:'Dinner',date:'2026-08-29'},
+    {amount:45,person:'Hazel',cat:'Dates',desc:'Dessert date',date:'2026-08-28'},
+    {amount:32,person:'Jenson',cat:'Food',desc:'Lunch',date:'2026-08-28'}
+  ],
+  goals:[
+    {name:'Wedding',owner:'Our Money',target:6666,current:0},
+    {name:'Japan Trip 🇯🇵',owner:'Hazel',target:8000,current:3200},
+    {name:'New Car 🚗',owner:'Jenson',target:30000,current:12000}
+  ],
+  investments:[],
+  notes:[
+    {title:'2027 goals',body:'Japan trip • Build emergency fund • Grow investments'}
+  ]
+};
+
+let data=JSON.parse(JSON.stringify(DEFAULT_DATA));
+let expensePerson='Hazel';
+let saving=false;
+
+function toast(message){
+  let t=document.getElementById('toast');
+  if(!t){
+    t=document.createElement('div');
+    t.id='toast';
+    t.style.cssText=
+      'position:fixed;left:50%;bottom:92px;'+
+      'transform:translateX(-50%);'+
+      'background:#34434a;color:#fff;'+
+      'padding:11px 16px;border-radius:999px;'+
+      'font-size:12px;font-weight:700;z-index:50;'+
+      'box-shadow:0 8px 24px rgba(0,0,0,.15);'+
+      'opacity:0;transition:opacity .15s ease';
+    document.body.appendChild(t);
+  }
+  t.textContent=message;
+  t.style.opacity='1';
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer=setTimeout(()=>{t.style.opacity='0';},1400);
+}
+
+
+/* =========================
+   SUPABASE SHARED SYNC
+========================= */
+const SUPABASE_URL='https://lfvwfblhvirfumrxpmcw.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_hHHh4HJ7xVSDFL2NRcGvSA_88b3OBkc';
+let supabaseClient=null;
+let supabaseLoading=null;
+let coupleId=localStorage.getItem('our-money-couple-id')||null;
+
+function ensureSupabaseClient(){
+  if(supabaseClient)return Promise.resolve(supabaseClient);
+  if(supabaseLoading)return supabaseLoading;
+
+  supabaseLoading=new Promise((resolve,reject)=>{
+    if(window.supabase){
+      supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{
+        auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}
+      });
+      resolve(supabaseClient);
+      return;
+    }
+
+    const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+    s.async=true;
+    const timer=setTimeout(()=>reject(new Error('Supabase library timed out')),7000);
+    s.onload=()=>{
+      clearTimeout(timer);
+      if(!window.supabase){reject(new Error('Supabase library unavailable'));return;}
+      supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{
+        auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}
+      });
+      resolve(supabaseClient);
+    };
+    s.onerror=()=>{
+      clearTimeout(timer);
+      reject(new Error('Could not load Supabase library'));
+    };
+    document.head.appendChild(s);
+  }).finally(()=>{supabaseLoading=null;});
+
+  return supabaseLoading;
+}
+let syncChannel=null;
+
+
+async function ensureAnonymousSession(){
+  await ensureSupabaseClient();
+  const {data:{session}}=await supabaseClient.auth.getSession();
+  if(session)return session;
+  const {data,error}=await supabaseClient.auth.signInAnonymously();
+  if(error)throw error;
+  return data.session;
+}
+
+async function getMyCouple(){
+  await ensureSupabaseClient();
+  const {data,error}=await supabaseClient.rpc('my_our_money_couple');
+  if(error)return null;
+  return Array.isArray(data)?data[0]:data;
+}
+
+function updateSyncStatus(){
+  const el=document.getElementById('syncSettingsStatus');
+  if(el)el.textContent=coupleId?'Connected ✓':'Not linked';
+}
+
+async function subscribeToCouple(){
+  if(!coupleId)return;
+  await ensureSupabaseClient();
+  if(syncChannel)await supabaseClient.removeChannel(syncChannel);
+  syncChannel=supabaseClient.channel('our-money-'+coupleId)
+    .on('postgres_changes',{
+      event:'UPDATE',schema:'public',table:'app_state',
+      filter:'couple_id=eq.'+coupleId
+    },payload=>{
+      if(payload.new?.data){
+        data=payload.new.data;
+        normalizeGoals();
+        render();
+        toast('Synced ✓');
+      }
+    })
+    .subscribe();
+}
+
+async function storageGet(){
+  if(!coupleId)return null;
+  await ensureSupabaseClient();
+  const {data:row,error}=await supabaseClient.from('app_state')
+    .select('data').eq('couple_id',coupleId).maybeSingle();
+  if(error)throw error;
+  return row?.data??null;
+}
+
+async function storageSet(nextData){
+  if(!coupleId)return false;
+  await ensureSupabaseClient();
+  const {error}=await supabaseClient.from('app_state')
+    .update({data:nextData}).eq('couple_id',coupleId);
+  if(error)throw error;
+  return true;
+}
+
+async function showCoupleCode(){
+  if(!coupleId){showSyncModal();return;}
+  const row=await getMyCouple();
+  if(row?.join_code)alert('Our Money couple code: '+row.join_code+'\n\nGive this code to your partner.');
+}
+
+async function createCouple(){
+  try{
+    await ensureSupabaseClient();
+    const {data:result,error}=await supabaseClient.rpc('create_our_money_couple');
+    if(error)throw error;
+    const row=Array.isArray(result)?result[0]:result;
+    coupleId=row.couple_id;
+    localStorage.setItem('our-money-couple-id',coupleId);
+    data=JSON.parse(JSON.stringify(DEFAULT_DATA));
+    await storageSet(data);
+    await subscribeToCouple();
+    closeModal('syncModal');
+    render();
+    alert('Our Money is ready!\\n\\nYour couple code is: '+row.join_code+'\\n\\nGive this code to your partner.');
+  }catch(e){
+    console.error(e);
+    alert('Could not create Our Money account.\\n\\n'+(e.message||e));
+  }
+}
+
+async function joinCouple(){
+  await ensureSupabaseClient();
+  const code=(document.getElementById('joinCode')?.value||'').trim();
+  if(!code){alert('Please enter the couple code.');return;}
+  try{
+    const {data:result,error}=await supabaseClient.rpc('join_our_money_couple',{p_join_code:code});
+    if(error)throw error;
+    const row=Array.isArray(result)?result[0]:result;
+    coupleId=row.couple_id;
+    localStorage.setItem('our-money-couple-id',coupleId);
+    const remote=await storageGet();
+    if(remote)data=remote;
+    await subscribeToCouple();
+    closeModal('syncModal');
+    render();
+    alert('Joined Our Money ✓');
+  }catch(e){
+    console.error(e);
+    alert('Could not join. Check the couple code and try again.');
+  }
+}
+
+function showSyncModal(){
+  document.getElementById('syncModal')?.classList.add('open');
+}
+
+async function loadData(){
+  // Render the app immediately. Supabase connects in the background so a
+  // slow auth/network request can never leave the user stuck on Loading.
+  document.getElementById('loading').style.display='none';
+  document.getElementById('appRoot').style.display='block';
+  normalizeGoals();
+  render();
+  updateSyncStatus();
+
+  try{
+    await Promise.race([
+      ensureAnonymousSession(),
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error('Supabase auth timeout')),8000))
+    ]);
+
+    if(!coupleId){
+      const mine=await Promise.race([
+        getMyCouple(),
+        new Promise((_,reject)=>setTimeout(()=>reject(new Error('Couple lookup timeout')),8000))
+      ]).catch(()=>null);
+
+      if(mine?.couple_id){
+        coupleId=mine.couple_id;
+        localStorage.setItem('our-money-couple-id',coupleId);
+      }
+    }
+
+    if(coupleId){
+      const remote=await storageGet();
+      if(remote){
+        data=remote;
+        normalizeGoals();
+        render();
+      }
+      await subscribeToCouple();
+    }else{
+      updateSyncStatus();
+      setTimeout(showSyncModal,250);
+    }
+  }catch(e){
+    console.warn('Supabase background connection:',e);
+    updateSyncStatus();
+    // Keep the UI usable and show setup instead of an endless loader.
+    if(!coupleId)setTimeout(showSyncModal,250);
+  }
+}
+
+async function save(message='Saved ✓'){
+  normalizeGoals();
+  render();
+  if(saving)return;
+  saving=true;
+  try{
+    if(!coupleId){
+      toast('Please link Our Money first');
+      showSyncModal();
+      return;
+    }
+    await storageSet(data);
+    toast(message);
+  }catch(e){
+    console.error('Save error:',e);
+    toast('Could not sync');
+  }finally{
+    saving=false;
+  }
+}
+
+/* =========================
+   HELPERS
+========================= */
+
+function money(n){
+  return 'RM '+Number(n||0).toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+
+function catsFor(person){
+  return data.categories?.[person]||[];
+}
+
+function monthExpenses(person=null){
+  return data.expenses.reduce((s,e)=>s+(person&&e.person!==person?0:Number(e.amount)),0);
+}
+
+function budgetTotal(person){
+  return catsFor(person).reduce((s,c)=>s+Number(c.budget||0),0);
+}
+
+function investmentsFor(person){
+  return data.investments
+    .filter(i=>i.owner==='Joint'||i.owner===person)
+    .reduce((s,i)=>s+Number(i.value||0),0);
+}
+
+function normalizeGoals(){
+  data.goals=(data.goals||[]).map(g=>{
+    let owner=g.owner;
+    if(['Together','Joint','Joint Account','Our Goal','Our Saving Goals'].includes(owner)){
+      owner='Our Money';
+    }
+    if(!['Our Money','Hazel','Jenson'].includes(owner)){
+      owner='Hazel';
+    }
+    return {...g,owner};
+  });
+}
+
+/* =========================
+   MAIN RENDER
+========================= */
+
+function render(){
+  normalizeGoals();
+
+  const d=new Date();
+  document.getElementById('monthLabel').textContent=
+    d.toLocaleString('en-US',{month:'long',year:'numeric'});
+
+  ['jointBalance','jointBalance2'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){el.textContent=money(data.joint);}
+  });
+
+  const hs=document.getElementById('hazelSavings');
+  if(hs){hs.textContent=money(data.personalSavings?.Hazel||0);}
+
+  const js=document.getElementById('jensonSavings');
+  if(js){js.textContent=money(data.personalSavings?.Jenson||0);}
+
+  const hi=document.getElementById('hazelInvestments');
+  if(hi){hi.textContent=money(investmentsFor('Hazel'));}
+
+  const ji=document.getElementById('jensonInvestments');
+  if(ji){ji.textContent=money(investmentsFor('Jenson'));}
+
+  document.getElementById('expenseTotal').textContent=money(monthExpenses(expensePerson));
+  document.getElementById('expenseBudget').textContent='Budget '+money(budgetTotal(expensePerson));
+
+  renderGoals();
+  renderExpenses();
+  renderCategories();
+  renderTransactionHistory();
+  renderInvestments();
+  renderNotes();
+  renderSettings();
+}
+
+/* =========================
+   GOAL CARD
+========================= */
+
+function goalCard(g,i,shared=false){
+  const target=Number(g.target||0);
+  const current=Number(g.current||0);
+  const p=target?Math.min(100,current/target*100):0;
+
+  return `
+    <div class="card">
+      <div class="row">
+        <div>
+          <b>${g.name}</b>
+          <div class="muted">${shared?'Together':g.owner}</div>
+        </div>
+        <button class="close" title="Delete goal" data-action="deleteGoal" data-args="[${i}]">×</button>
+      </div>
+      <div style="font-size:22px;font-weight:900;margin-top:10px;">${money(current)}</div>
+      <div class="muted">of ${money(target)}</div>
+      <div class="progress"><div class="fill ${shared?'yellow':''}" style="width:${p}%"></div></div>
+      <div class="row">
+        <span class="muted">${p.toFixed(0)}%</span>
+        <span class="muted">${money(Math.max(0,target-current))} left</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderGoals(){
+  normalizeGoals();
+
+  const shared=data.goals.filter(g=>g.owner==='Our Money');
+  const hazel=data.goals.filter(g=>g.owner==='Hazel');
+  const jenson=data.goals.filter(g=>g.owner==='Jenson');
+
+  const our=document.getElementById('ourGoals');
+  if(our){
+    our.innerHTML=shared.length
+      ?shared.map(g=>goalCard(g,data.goals.indexOf(g),true)).join('')
+      :'<div class="empty">No shared goals yet.</div>';
+  }
+
+  const hz=document.getElementById('hazelPersonalGoals');
+  if(hz){
+    hz.innerHTML=hazel.length
+      ?hazel.map(g=>goalCard(g,data.goals.indexOf(g))).join('')
+      :'<div class="empty">No goal yet.</div>';
+  }
+
+  const jn=document.getElementById('jensonPersonalGoals');
+  if(jn){
+    jn.innerHTML=jenson.length
+      ?jenson.map(g=>goalCard(g,data.goals.indexOf(g))).join('')
+      :'<div class="empty">No goal yet.</div>';
+  }
+
+  const homeOur=document.getElementById('homeOurGoal');
+  if(homeOur){
+    homeOur.innerHTML=shared.length
+      ?goalCard(shared[0],data.goals.indexOf(shared[0]),true)
+      :'<div class="empty">No shared goal yet.</div>';
+  }
+
+  const homeHazel=document.getElementById('homeHazelGoal');
+  if(homeHazel){
+    homeHazel.innerHTML=hazel.length
+      ?goalCard(hazel[0],data.goals.indexOf(hazel[0]))
+      :'<div class="empty">No goal yet.</div>';
+  }
+
+  const homeJenson=document.getElementById('homeJensonGoal');
+  if(homeJenson){
+    homeJenson.innerHTML=jenson.length
+      ?goalCard(jenson[0],data.goals.indexOf(jenson[0]))
+      :'<div class="empty">No goal yet.</div>';
+  }
+}
+
+/* =========================
+   EXPENSES
+========================= */
+
+function expenseHTML(e,index,del=false){
+  const c=(data.categories[e.person]||[]).find(x=>x.name===e.cat)||{icon:'💸'};
+  return `
+    <div class="item">
+      <div class="icon">${c.icon}</div>
+      <div class="info">
+        <div class="name">${e.desc||e.cat}</div>
+        <div class="sub">${e.person} • ${e.cat} • ${e.date}</div>
+      </div>
+      <div class="amt">−${money(e.amount)}</div>
+      ${del?`<button class="close" data-action="deleteExpense" data-args="[${index}]">×</button>`:''}
+    </div>
+  `;
+}
+
+function renderExpenses(){
+  const recent=data.expenses.slice().reverse().slice(0,5);
+  document.getElementById('recentExpenses').innerHTML=
+    recent.length?recent.map(expenseHTML).join(''):'<div class="empty">No expenses yet.</div>';
+}
+
+/* =========================
+   CATEGORIES
+========================= */
+
+function renderCategories(){
+  const person=expensePerson;
+  document.getElementById('expensePersonLabel').textContent=person+"'s categories & budgets";
+
+  document.getElementById('categoryList').innerHTML=catsFor(person).map(c=>{
+    const spent=data.expenses
+      .filter(e=>e.person===person&&e.cat===c.name)
+      .reduce((s,e)=>s+Number(e.amount),0);
+    const p=c.budget?Math.min(100,spent/c.budget*100):0;
+    return `
+      <div style="margin:10px 0">
+        <div class="row">
+          <b>${c.icon} ${c.name}</b>
+          <span class="muted">${money(spent)} / ${money(c.budget)}</span>
+        </div>
+        <div class="progress"><div class="fill ${p>=100?'yellow':''}" style="width:${p}%"></div></div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* =========================
+   TRANSACTION HISTORY
+========================= */
+
+function monthKey(date){return String(date||'').slice(0,7);}
+
+function monthLabelFromKey(key){
+  if(key==='all')return 'All months';
+  const parts=key.split('-');
+  if(parts.length!==2)return key;
+  const d=new Date(Date.UTC(Number(parts[0]),Number(parts[1])-1,1));
+  return d.toLocaleString('en-US',{month:'long',year:'numeric',timeZone:'UTC'});
+}
+
+function populateTransactionMonths(){
+  const select=document.getElementById('transactionMonth');
+  if(!select)return;
+  const current=select.value||'all';
+  const months=[...new Set(data.expenses.map(e=>monthKey(e.date)).filter(Boolean))].sort().reverse();
+  select.innerHTML='<option value="all">All months</option>'+
+    months.map(m=>`<option value="${m}">${monthLabelFromKey(m)}</option>`).join('');
+  select.value=months.includes(current)?current:'all';
+}
+
+function renderTransactionHistory(){
+  const el=document.getElementById('transactionHistory');
+  if(!el)return;
+
+  populateTransactionMonths();
+  const selected=document.getElementById('transactionMonth').value||'all';
+  const person=expensePerson;
+
+  const rows=data.expenses
+    .map((e,i)=>({...e,index:i}))
+    .filter(e=>e.person===person&&(selected==='all'||monthKey(e.date)===selected))
+    .sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+
+  if(!rows.length){
+    el.innerHTML='<div class="empty">No transactions for this month.</div>';
+    return;
+  }
+
+  const groups={};
+  rows.forEach(e=>{
+    if(!groups[e.date])groups[e.date]=[];
+    groups[e.date].push(e);
+  });
+
+  el.innerHTML=Object.entries(groups).map(([date,items])=>{
+    const day=new Date(date+'T00:00:00Z');
+    const label=day.toLocaleDateString('en-US',{weekday:'long',day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});
+    return `
+      <div style="margin:10px -2px 0;">
+        <div style="font-size:12px;font-weight:800;color:var(--muted);padding:8px 0;">${label}</div>
+        ${items.map(e=>{
+          const c=(data.categories[e.person]||[]).find(x=>x.name===e.cat)||{icon:'💸'};
+          return `
+            <div class="item">
+              <div class="icon">${c.icon}</div>
+              <div class="info">
+                <div class="name">${e.desc||e.cat}</div>
+                <div class="sub">${e.cat} • ${e.person}</div>
+              </div>
+              <div class="amt">−${money(e.amount)}</div>
+              <button class="close" data-action="deleteExpense" data-args="[${e.index}]">×</button>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }).join('');
+}
+
+/* =========================
+   INVESTMENTS
+========================= */
+
+function investmentOwnerLabel(owner){
+  if(owner==='Our Money')return 'Joint';
+  return owner||'Joint';
+}
+
+function investmentOwnerNormalize(owner){
+  if(owner==='Our Money'||owner==='Shared')return 'Joint';
+  return owner;
+}
+
+function renderInvestments(){
+  const el=document.getElementById('investmentList');
+  if(!el)return;
+
+  data.investments=(data.investments||[]).map(x=>({...x,owner:investmentOwnerNormalize(x.owner)}));
+
+  if(!data.investments.length){
+    el.innerHTML='<div class="empty">No investments yet.</div>';
+    return;
+  }
+
+  el.innerHTML=data.investments.map((inv,i)=>`
+    <div class="item">
+      <div class="icon">📈</div>
+      <div class="info">
+        <div class="name">${inv.name||'Investment'}</div>
+        <div class="sub">${investmentOwnerLabel(inv.owner)} • Current value</div>
+      </div>
+      <div class="amt">${money(inv.value||0)}</div>
+      <button class="close" title="Edit investment" data-action="editInvestment" data-args="[${i}]">✎</button>
+      <button class="close" title="Remove investment" data-action="deleteInvestment" data-args="[${i}]">×</button>
+    </div>
+  `).join('');
+}
+
+function investmentOwnerPrompt(current){
+  const answer=prompt('Whose investment? Enter Hazel, Jenson, or Joint.',investmentOwnerLabel(current));
+  if(answer===null)return null;
+  const v=answer.trim().toLowerCase();
+  if(v==='hazel')return 'Hazel';
+  if(v==='jenson')return 'Jenson';
+  if(v==='joint'||v==='shared'||v==='our money'||v==='joint account')return 'Joint';
+  alert('Please enter Hazel, Jenson, or Joint.');
+  return null;
+}
+
+function addInvestment(){
+  const name=prompt('Investment name','Investment Portfolio');
+  if(name===null)return;
+  const value=prompt('Current value (RM)','0');
+  if(value===null)return;
+  const owner=investmentOwnerPrompt('Hazel');
+  if(owner===null)return;
+  const amount=Number(String(value).replace(/,/g,''));
+  if(!Number.isFinite(amount)||amount<0){alert('Please enter a valid amount.');return;}
+
+  data.investments=data.investments||[];
+  data.investments.push({name:name.trim()||'Investment',value:amount,owner});
+  save('Investment added ✓');
+}
+
+function editInvestment(i){
+  const inv=data.investments[i];
+  if(!inv)return;
+  const name=prompt('Investment name',inv.name||'Investment');
+  if(name===null)return;
+  const value=prompt('Current value (RM)',String(inv.value||0));
+  if(value===null)return;
+  const owner=investmentOwnerPrompt(inv.owner);
+  if(owner===null)return;
+  const amount=Number(String(value).replace(/,/g,''));
+  if(!Number.isFinite(amount)||amount<0){alert('Please enter a valid amount.');return;}
+
+  data.investments[i]={...inv,name:name.trim()||'Investment',value:amount,owner};
+  save('Investment updated ✓');
+}
+
+function deleteInvestment(i){
+  const inv=data.investments[i];
+  if(!inv)return;
+  if(!confirm(`Remove "${inv.name||'this investment'}"?`))return;
+  data.investments.splice(i,1);
+  save('Investment removed ✓');
+}
+
+/* =========================
+   NOTES
+========================= */
+
+function renderNotes(){
+  document.getElementById('notesList').innerHTML=data.notes.map((n,i)=>`
+    <div class="note">
+      <div class="row">
+        <b>${n.title}</b>
+        <button class="close" data-action="deleteNote" data-args="[${i}]">×</button>
+      </div>
+      <div style="margin-top:8px;font-size:13px;line-height:1.5;">${String(n.body||'').replace(/\n/g,'<br>')}</div>
+    </div>
+  `).join('')||'<div class="empty">No notes yet.</div>';
+}
+
+/* =========================
+   SETTINGS
+========================= */
+
+function renderSettings(){
+  const person=expensePerson;
+  document.getElementById('settingsPersonLabel').textContent=person;
+
+  document.getElementById('settingsCats').innerHTML=catsFor(person).map((c,i)=>`
+    <div class="item">
+      <div class="info">
+        <b>${c.icon} ${c.name}</b>
+        <div class="sub">${person} • Budget ${money(c.budget)}</div>
+      </div>
+      <button class="btn" style="padding:8px 10px;font-size:12px;" data-action="editCategory" data-args="[${i}]">Edit</button>
+      <button class="close" data-action="deleteCategory" data-args="[${i}]">×</button>
+    </div>
+  `).join('');
+
+  const sel=document.getElementById('eCategory');
+  if(sel){
+    sel.innerHTML=catsFor(document.getElementById('ePerson')?.value||'Hazel')
+      .map(c=>`<option>${c.name}</option>`).join('');
+  }
+}
+
+/* =========================
+   EXPENSE PERSON
+========================= */
+
+function setExpensePerson(person){
+  expensePerson=person;
+  const ePerson=document.getElementById('ePerson');
+  if(ePerson){ePerson.value=person;}
+  render();
+}
+
+/* =========================
+   MODALS
+========================= */
+
+function openModal(id){
+  document.getElementById(id).classList.add('open');
+  if(id==='expenseModal'){
+    document.getElementById('ePerson').value=expensePerson;
+    document.getElementById('eCategory').innerHTML=
+      catsFor(expensePerson).map(c=>`<option>${c.name}</option>`).join('');
+  }
+}
+
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+}
+
+/* =========================
+   EXPENSE ACTIONS
+========================= */
+
+function addExpense(){
+  const amount=Number(document.getElementById('eAmount').value);
+  if(!amount){alert('Enter an amount.');return;}
+
+  const person=document.getElementById('ePerson').value;
+  const cat=document.getElementById('eCategory').value;
+
+  data.expenses.push({
+    amount,
+    person,
+    cat,
+    desc:document.getElementById('eDesc').value||'Expense',
+    date:new Date().toISOString().slice(0,10)
+  });
+
+  document.getElementById('eAmount').value='';
+  document.getElementById('eDesc').value='';
+  closeModal('expenseModal');
+  save('Expense saved ✓');
+}
+
+function deleteExpense(i){
+  if(!confirm('Delete this expense?'))return;
+  data.expenses.splice(i,1);
+  save();
+}
+
+/* =========================
+   GOAL ACTIONS
+========================= */
+
+function openGoalModal(){openModal('goalModal');}
+
+function addGoal(){
+  const name=document.getElementById('gName').value.trim();
+  const target=Number(document.getElementById('gTarget').value);
+  const current=Number(document.getElementById('gCurrent').value||0);
+
+  if(!name||!target){alert('Enter a goal and target.');return;}
+
+  data.goals.push({name,owner:document.getElementById('gOwner').value,target,current});
+
+  ['gName','gTarget','gCurrent'].forEach(x=>document.getElementById(x).value='');
+  closeModal('goalModal');
+  save('Goal saved ✓');
+}
+
+function deleteGoal(i){
+  if(!confirm('Delete this saving goal?'))return;
+  data.goals.splice(i,1);
+  save('Goal deleted ✓');
+}
+
+/* =========================
+   JOINT
+========================= */
+
+function adjustJoint(dir){
+  const v=Number(prompt(dir>0?'Amount to add?':'Amount to withdraw?','100'));
+  if(!isNaN(v)&&v>0){
+    data.joint+=dir*v;
+    save();
+  }
+}
+
+/* =========================
+   PERSONAL SAVINGS
+========================= */
+
+function editPersonalMoney(person){
+  const current=Number(data.personalSavings?.[person]||0);
+  const input=prompt(person+"'s current personal savings:",String(current));
+  if(input===null)return;
+
+  const value=Number(input);
+  if(isNaN(value)||value<0){alert('Please enter a valid amount.');return;}
+
+  if(!data.personalSavings){data.personalSavings={Hazel:0,Jenson:0};}
+  data.personalSavings[person]=value;
+  save(person+"'s savings updated ✓");
+}
+
+/* =========================
+   CATEGORY ACTIONS
+========================= */
+
+function addCategory(){
+  const nameInput=document.getElementById('newCat');
+  const budgetInput=document.getElementById('newBudget');
+  const name=nameInput.value.trim();
+  const budget=Number(budgetInput.value||0);
+
+  if(!name){alert('Please enter a category name.');return;}
+  if(isNaN(budget)||budget<0){alert('Budget must be 0 or more.');return;}
+
+  const person=expensePerson;
+  if(!data.categories[person]){data.categories[person]=[];}
+
+  if(data.categories[person].some(c=>c.name.toLowerCase()===name.toLowerCase())){
+    alert('That category already exists for '+person+'.');
+    return;
+  }
+
+  data.categories[person].push({name,icon:'✨',budget});
+  nameInput.value='';
+  budgetInput.value='';
+  closeModal('settingsModal');
+  save('Category added ✓');
+}
+
+function editCategory(i){
+  const person=expensePerson;
+  const c=data.categories[person][i];
+
+  const name=prompt('Category name:',c.name);
+  if(name===null)return;
+  const budgetInput=prompt('Monthly budget:',String(c.budget));
+  if(budgetInput===null)return;
+
+  const nameTrim=name.trim();
+  const budget=Number(budgetInput);
+
+  if(!nameTrim){alert('Category name cannot be empty.');return;}
+  if(isNaN(budget)||budget<0){alert('Budget must be 0 or more.');return;}
+
+  if(data.categories[person].some((x,j)=>j!==i&&x.name.toLowerCase()===nameTrim.toLowerCase())){
+    alert('That category already exists.');
+    return;
+  }
+
+  const oldName=c.name;
+  c.name=nameTrim;
+  c.budget=budget;
+
+  data.expenses.forEach(e=>{
+    if(e.person===person&&e.cat===oldName){e.cat=nameTrim;}
+  });
+
+  save();
+}
+
+function deleteCategory(i){
+  const person=expensePerson;
+  const cat=data.categories[person][i].name;
+
+  if(data.expenses.some(e=>e.person===person&&e.cat===cat)){
+    alert('This category has expenses. Delete those expenses first.');
+    return;
+  }
+
+  data.categories[person].splice(i,1);
+  save();
+}
+
+/* =========================
+   NOTES
+========================= */
+
+function addNote(){
+  const title=document.getElementById('nTitle').value;
+  const body=document.getElementById('nBody').value;
+  if(!title&&!body)return;
+
+  data.notes.push({title:title||'Note',body});
+
+  document.getElementById('nTitle').value='';
+  document.getElementById('nBody').value='';
+  closeModal('noteModal');
+  save('Note saved ✓');
+}
+
+function deleteNote(i){
+  if(!confirm('Delete this note?'))return;
+  data.notes.splice(i,1);
+  save();
+}
+
+/* =========================
+   RESET
+========================= */
+
+function resetData(){
+  if(confirm('Reset the app to demo data? This clears data for everyone using this app.')){
+    data=JSON.parse(JSON.stringify(DEFAULT_DATA));
+    closeModal('settingsModal');
+    save('Reset to demo data');
+  }
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+document.querySelectorAll('nav button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active-page'));
+    const page=document.getElementById(b.dataset.page);
+    if(page){page.classList.add('active-page');}
+    const app=document.getElementById('appRoot');
+    if(app)app.scrollTop=0;
+  });
+});
+
+document.getElementById('ePerson').addEventListener('change',()=>{
+  const p=document.getElementById('ePerson').value;
+  document.getElementById('eCategory').innerHTML=
+    catsFor(p).map(c=>`<option>${c.name}</option>`).join('');
+});
+
+document.getElementById('transactionMonth').addEventListener('change',renderTransactionHistory);
+/* Close a modal by tapping its backdrop, but not its sheet. */
+document.querySelectorAll('.modal').forEach(modal=>{
+  modal.addEventListener('click',e=>{
+    if(e.target===modal) closeModal(modal.id);
+  });
+});
+document.querySelectorAll('.sheet').forEach(sheet=>{
+  sheet.addEventListener('click',e=>e.stopPropagation());
+});
+
+
+/* =========================
+   CLICK DELEGATION
+   (all buttons use data-action instead
+   of inline onclick, which this sandboxed
+   viewer doesn't reliably fire)
+========================= */
+
+document.addEventListener('click',function(e){
+  const btn=e.target.closest && e.target.closest('[data-action]');
+  if(!btn)return;
+  const action=btn.getAttribute('data-action');
+  let args=[];
+  const raw=btn.getAttribute('data-args');
+  if(raw){
+    try{args=JSON.parse(raw);}catch(err){console.error('Bad action args',raw,err);}
+  }
+
+  const actions={
+    openModal,closeModal,editPersonalMoney,setExpensePerson,
+    openGoalModal,adjustJoint,addInvestment,editInvestment,
+    deleteInvestment,addExpense,addGoal,deleteGoal,deleteExpense,
+    addNote,deleteNote,addCategory,editCategory,deleteCategory,resetData,createCouple,joinCouple,showCoupleCode
+  };
+
+  if(typeof actions[action]==='function'){
+    e.preventDefault();
+    actions[action](...args);
+  }else{
+    console.warn('Unknown action:',action);
+  }
+});
+
+/* =========================
+   INIT
+========================= */
+
+loadData();
+
+</script>
+
+</body>
+</html>
